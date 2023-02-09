@@ -11,22 +11,22 @@ class Ext(Extension):
         self.client: Client = client
 
     @extension_command(name="rank",
-       description="Get your rank or another member's rank",
-       options=[
-           Option(name="member",
-                  description="Target @member",
-                  type=OptionType.USER,
-                  required=False)
-       ])
+                       description="Get your rank or another member's rank",
+                       options=[
+                           Option(name="member",
+                                  description="Target @member",
+                                  type=OptionType.USER,
+                                  required=False)
+                       ])
     async def _rank(self, ctx: CommandContext, member=None):
         if member == None:
             member = ctx.author
 
-        with open('922185010205822976.txt', 'r') as f:
+        with open(f'{ctx.guild_id}.txt', 'r') as f:
             users = load(f.read())
 
         user = users[str(member.id)]
-        lb = calc_leaderboard()
+        lb = calc_leaderboard(ctx.guild_id)
         rank = list(lb.keys()).index(str(member.id)) + 1
         await ctx.send(
             f"{member.mention}'s level is **{user.lvl} (rank #{rank})** ({user.xp}/{calc_level_xp(user.lvl)} XP)",

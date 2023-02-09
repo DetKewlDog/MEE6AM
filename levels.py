@@ -49,7 +49,7 @@ def fetch(guild_id):
 def calc_total_xp(lvl, xp):
     return xp + sum([calc_level_xp(lvl) for lvl in range(0, lvl)])
 
-def calc_leaderboard():
-    with open('922185010205822976.txt', 'r') as f:
+def calc_leaderboard(guild_id):
+    with open(f'{guild_id}.txt', 'r') as f:
         users = load(f.read())
     return dict(sorted(users.items(), key=lambda item: calc_total_xp(item[1].lvl, item[1].xp), reverse=True))

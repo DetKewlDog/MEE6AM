@@ -11,8 +11,8 @@ class Ext(Extension):
         for i in range(0, len(lst), 10):
             yield lst[i:i + 10]
 
-    def calc_lb(self):
-        lb = calc_leaderboard()
+    def calc_lb(self, ctx):
+        lb = calc_leaderboard(ctx.guild_id)
         new_lb = []
         for id, usr in lb.items():
             part1 = f"> **{list(lb.keys()).index(id) + 1}. <@{id}>"
@@ -31,7 +31,7 @@ class Ext(Extension):
                        ])
     async def _levels(self, ctx: CommandContext, page=1):
         try:
-            lb = self.calc_lb()
+            lb = self.calc_lb(ctx)
             p = '\n'.join(lb[page - 1])
             await ctx.send(f"**Showing Page #{page}/{len(lb)}**\n{p}",
                            allowed_mentions=AllowedMentions(users=[]))
