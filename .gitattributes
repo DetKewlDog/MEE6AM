@@ -1,0 +1,8 @@
+*.pyx linguist-vendored
+*.pyc linguist-vendored
+*.cpp linguist-vendored
+
+poetry.lock linguist-vendored
+pyproject.toml linguist-vendored
+venv/* linguist-vendored
+__pycache__/* linguist-vendored 
