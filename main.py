@@ -31,14 +31,14 @@ async def on_ready():
             print("Failed to load cog {}\n{}".format(cog, exc))
 
 
-cooldown_lst = []
+cooldown_dict = {}
 
 
-def do_cooldown(id):
-    print(cooldown_lst)
+def do_cooldown(id, guild_id):
+    print(cooldown_dict[guild_id])
     time.sleep(60)
-    cooldown_lst.remove(id)
-    print(cooldown_lst)
+    cooldown_dict[guild_id].remove(id)
+    print(cooldown_dict[guild_id])
 
 
 @client.event
@@ -46,12 +46,16 @@ async def on_message_create(message):
     users = []
     id = str(message.author.id)
     if id == BOT_ID: return
-    if id in cooldown_lst: return
-    cooldown_lst.append(id)
-    t = threading.Thread(target=do_cooldown, args=(id, ))
+    guild_id = message.guild_id
+    if not guild_id in cooldown_dict.keys():
+        cooldown_dict[guild_id] = []
+    if id in cooldown_dict[guild_id]: return
+        
+    cooldown_dict[guild_id].append(id)
+    t = threading.Thread(target=do_cooldown, args=(id, guild_id, ))
     t.start()
 
-    with open(f'{message.guild_id}.txt', 'r') as f:
+    with open(f'{guild_id}.txt', 'r') as f:
         users = load(f.read())
 
     if not id in users.keys():
