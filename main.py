@@ -9,7 +9,7 @@ import random
 cogs: list = ["Cogs.rank", "Cogs.levels"]
 client = 0
 try:
-    client = Client(token=os.getenv('TOKEN'))
+    client = Client(token=os.getenv('TOKEN'), intents=Intents.GUILD_MEMBERS | Intents.DEFAULT,)
 except:
     os.system('kill 1')
 
@@ -45,7 +45,7 @@ def do_cooldown(id, guild_id):
 async def on_message_create(message):
     users = []
     id = str(message.author.id)
-    if id == BOT_ID: return
+    if message.author.bot: return
     guild_id = message.guild_id
     if not guild_id in cooldown_dict.keys():
         cooldown_dict[guild_id] = []
