@@ -33,14 +33,13 @@ class Ext(Extension):
         with open(f'{ctx.guild_id}.txt', 'r') as f:
             users = load(f.read())
 
-
         msg = await ctx.send('Loading, please wait...')
         user = users[str(member.id)]
         lb = calc_leaderboard(ctx.guild_id)
         rank = list(lb.keys()).index(str(member.id)) + 1
         print(member)
         icon = member.user.avatar_url
-        print(icon)
+        card_settings.bar_color = user.color
         a = RankCard(settings=card_settings,
                      avatar=icon,
                      level=user.lvl,

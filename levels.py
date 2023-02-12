@@ -11,10 +11,11 @@ def calc_level_xp(lvl):
 
 class User:
 
-    def __init__(self, name, lvl, xp):
+    def __init__(self, name, lvl, xp, color):
         self.name = name
         self.lvl = lvl
         self.xp = xp
+        self.color = color
 
     def add_xp(self, xp_to_add):
         xp_left = calc_level_xp(self.lvl) - self.xp - xp_to_add
@@ -42,7 +43,7 @@ def fetch(guild_id):
     for user in dat['players']:
         xp = user['xp'] - sum(
             [calc_level_xp(lvl) for lvl in range(0, user['level'])])
-        users[user['id']] = User(user['username'], user['level'], xp)
+        users[user['id']] = User(user['username'], user['level'], xp, '#00F9FF')
     with open(f'{guild_id}.txt', 'w') as f:
         f.write(dump(users))
 

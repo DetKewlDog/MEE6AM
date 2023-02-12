@@ -6,9 +6,12 @@ import time
 from levels import *
 import random
 
-cogs: list = ["Cogs.rank", "Cogs.levels"]
+cogs: list = ["Cogs.rank", "Cogs.levels", "Cogs.customize"]
 client = 0
-client = interactions.Client(token=os.getenv('TOKEN'), intents=interactions.Intents.GUILD_MEMBERS | interactions.Intents.DEFAULT,)
+client = interactions.Client(
+    token=os.getenv('TOKEN'),
+    intents=interactions.Intents.GUILD_MEMBERS | interactions.Intents.DEFAULT,
+)
 
 BOT_ID = '1072826728642252913'
 
@@ -47,16 +50,19 @@ async def on_message_create(message):
     if not guild_id in cooldown_dict.keys():
         cooldown_dict[guild_id] = []
     if id in cooldown_dict[guild_id]: return
-        
+
     cooldown_dict[guild_id].append(id)
-    t = threading.Thread(target=do_cooldown, args=(id, guild_id, ))
+    t = threading.Thread(target=do_cooldown, args=(
+        id,
+        guild_id,
+    ))
     t.start()
 
     with open(f'{guild_id}.txt', 'r') as f:
         users = load(f.read())
 
     if not id in users.keys():
-        users[id] = User(message.author.username, 0, 0)
+        users[id] = User(message.author.username, 0, 0, '#00F9FF')
     res = users[id].add_xp(random.randint(15, 25))
     users[id].name = message.author.username
     if res == 1:
