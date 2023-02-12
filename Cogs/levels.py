@@ -15,6 +15,7 @@ class Ext(Extension):
         lb = calc_leaderboard(ctx.guild_id)
         new_lb = []
         guild = await ctx.get_guild()
+        print(guild)
         members = await guild.get_members().flatten()
         members = {str(member.id): member for member in members}
         for id, usr in lb.items():
@@ -37,11 +38,11 @@ class Ext(Extension):
                                   required=False)
                        ])
     async def _levels(self, ctx: CommandContext, page=1):
+        await ctx.send('Loading, please wait...')
         try:
             lb = await self.calc_lb(ctx)
             p = '\n'.join(lb[page - 1])
-            await ctx.send(f"**Showing Page #{page}/{len(lb)}**\n{p}\n",
-                           allowed_mentions=AllowedMentions(users=[]))
+            await ctx.send(f"**Showing Page #{page}/{len(lb)}**\n{p}\n")
         except:
             await ctx.send('Invalid page number!', ephemeral=True)
 

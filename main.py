@@ -1,4 +1,4 @@
-from interactions import *
+import interactions
 import os
 import keep_alive
 import threading
@@ -8,10 +8,7 @@ import random
 
 cogs: list = ["Cogs.rank", "Cogs.levels"]
 client = 0
-try:
-    client = Client(token=os.getenv('TOKEN'), intents=Intents.GUILD_MEMBERS | Intents.DEFAULT,)
-except:
-    os.system('kill 1')
+client = interactions.Client(token=os.getenv('TOKEN'), intents=interactions.Intents.GUILD_MEMBERS | interactions.Intents.DEFAULT,)
 
 BOT_ID = '1072826728642252913'
 
